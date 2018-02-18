@@ -34,10 +34,16 @@ class LoandetailsController extends Controller
      * Lists all Loandetails models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($maturity=false)
     {
         $searchModel = new LoandetailsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if ($maturity) {
+            # code...
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$maturity);
+        }else{
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,

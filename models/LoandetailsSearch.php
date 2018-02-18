@@ -39,7 +39,7 @@ class LoandetailsSearch extends Loandetails
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params,$maturity=false)
     {
         $query = Loandetails::find();
 
@@ -58,9 +58,20 @@ class LoandetailsSearch extends Loandetails
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-        ]);
+        
+
+        if ($maturity) {
+           
+
+            $query->andFilterWhere([
+                'id' => $this->id,
+                'paid_status' => $maturity,
+            ]);
+        }else{
+            $query->andFilterWhere([
+                'id' => $this->id,
+            ]);
+        }
 
         $query->andFilterWhere(['like', 'loan_ref', $this->loan_ref])
             ->andFilterWhere(['like', 'supplier', $this->supplier])

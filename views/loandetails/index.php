@@ -20,7 +20,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Loandetails', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create a Loan', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Show Paid Loans', ['index','maturity'=>'Paid'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Show Not Paid Loans', ['index','maturity'=>'Not Paid'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -93,7 +95,22 @@ $this->params['breadcrumbs'][] = $this->title;
             ),
             'int_to_be_paid',
             'payment',
-            'paid_status',
+            // 'paid_status',
+            array(
+                'attribute' => 'paid_status',
+                'format' => 'html',
+                'value' => function ($data) {
+                    if ($data['paid_status'] == 'Paid') {
+                        # code...
+                    return $data['paid_status'].'     '.'<span class="glyphicon glyphicon-ok"></span>';
+                    }else{
+                    return $data['paid_status'].'     '.'<span class="glyphicon glyphicon-remove"></span>';
+
+                    }
+                },
+
+            ),
+
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
