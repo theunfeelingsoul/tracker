@@ -26,6 +26,8 @@ use Yii;
  */
 class Loandetails extends \yii\db\ActiveRecord
 {
+    public $max_term = 180;
+
     /**
      * @inheritdoc
      */

@@ -65,6 +65,33 @@ class LoandetailsController extends Controller
     }
 
     /**
+     * Calculates Interest
+     * 
+     * @return mixed
+     */
+    public function calcInterest($A,$B,$C,$D){
+        // calculate interest
+        /*
+            Amount      - A
+            Interest rate    - B
+            Temrm       - C
+            Max Term    - D
+            Total       - E
+
+            A X B X ( (D-C)/360 ) = E
+
+            $A = $amount;
+            $B = $int_rate/100;
+            $C = $model->lc_terms;
+            $D = $model->max_term;
+        **/
+        // interest to be paid
+        $E = $A * $B * round((($D-$C)/360),2);
+
+        return $E;
+    }
+
+    /**
      * Creates a new Loandetails model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -82,19 +109,29 @@ class LoandetailsController extends Controller
     // create post
             if ($model->load(Yii::$app->request->post())) {
                 
-                $modelBank      = new Banklist();
-                $bank_data    = $modelBank->findOne($model->bank);
+                $modelBank  = new Banklist();
+                $bank_data  = $modelBank->findOne($model->bank);
+
+                // Get the interest rate
                 $int_rate   = $model->int_rate = $bank_data['int_rate'];
 
                 $amount     = $model->amount;
                 $start_date = $model->start_date;
 
-                $int_to_be_paid = $int_rate /100 * $amount;
-                $payment = $int_to_be_paid +  $amount;
+                // calculate interest
+                $A = $amount;
+                $B = $int_rate/100; 
+                $C = $model->lc_terms;
+                $D = $model->max_term;
+                // interest to be paid
+                $E=$this->calcInterest($A,$B,$C,$D);
+                // amount to be paid after interest
+                $payment = $E +  $amount;
+
 
                 $model->end_date = date('Y-m-d', strtotime("+".$model->lc_terms." days"));
                 $model->payment = $payment;
-                $model->int_to_be_paid = $int_to_be_paid;
+                $model->int_to_be_paid = $E;
                 
 
                 
