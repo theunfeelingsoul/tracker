@@ -44,7 +44,7 @@ class LoandetailsController extends Controller
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         }
-
+        // $this->layout="main-old";
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -99,14 +99,14 @@ class LoandetailsController extends Controller
     public function actionCreate()
     {
         $model = new Loandetails();
-
+        
         // cal the interst to be paid
         // cal the amount to be paid
 
         // if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
         if (\Yii::$app->user->can('createPost')) {
-    // create post
+        // create post
             if ($model->load(Yii::$app->request->post())) {
                 
                 $modelBank  = new Banklist();
@@ -116,7 +116,7 @@ class LoandetailsController extends Controller
                 $int_rate   = $model->int_rate = $bank_data['int_rate'];
 
                 $amount     = $model->amount;
-                $start_date = $model->start_date;
+               
 
                 // calculate interest
                 $A = $amount;
@@ -126,12 +126,17 @@ class LoandetailsController extends Controller
                 // interest to be paid
                 $E=$this->calcInterest($A,$B,$C,$D);
                 // amount to be paid after interest
-                $payment = $E +  $amount;
+                $payment =  round(($E +  $amount),2);
 
 
-                $model->end_date = date('Y-m-d', strtotime("+".$model->lc_terms." days"));
+                // $model->end_date = date('Y-m-d', strtotime("+".$model->lc_terms." days"));
+                $model->end_date = strtotime($model->start_date."+".$model->lc_terms." days");
                 $model->payment = $payment;
                 $model->int_to_be_paid = $E;
+                $model->start_date = $model->start_date;
+                // $model->start_date = strtotime($model->start_date);
+                $model->bl_date = $model->bl_date;
+                // $model->bl_date = strtotime($model->bl_date);
                 
 
                 
@@ -150,6 +155,9 @@ class LoandetailsController extends Controller
             'model' => $model,
         ]);
     }
+
+
+
 
     /**
      * Updates an existing Loandetails model.

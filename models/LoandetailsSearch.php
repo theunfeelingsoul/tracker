@@ -47,6 +47,7 @@ class LoandetailsSearch extends Loandetails
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            
         ]);
 
         $this->load($params);

@@ -82,81 +82,26 @@ AppAsset::register($this);
     NavBar::end();
     ?>
 
-    <div class="main-container">
-        <div class="wrapper">
-            <!-- <div class="col-md-2 col-sm-4"> -->
-            <nav id="sidebar">
-                <div class="sidebar-header">
-                    <!-- <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-                                <i class="glyphicon glyphicon-align-left"></i>
-                                <span>Toggle Sidebar</span>
-                            </button> -->
-                    <h3>Dashboard</h3>
-                    <strong>DB</strong>
-                </div>
+    <div class="container">
 
-                <ul class="list-unstyled components">
-                   
-                    <li>
-                                
-                                <?= Html::a('<i class="fas fa-balance-scale"></i> Loans', 
-                                            ['#homeSubmenu'],
-                                            [
-                                              'data-toggle' =>"collapse",
-                                              'aria-expanded'=>"false",
-                                            ]) 
-                                ?>
-                                <ul class="collapse list-unstyled" id="homeSubmenu">
-                                    <li>
-                                        <?= Html::a('All Loans', ['loandetails/index']) ?>
-                                    </li>
-                                </ul>
-                            </li>
-
-                    
-                    <li>
-
-                    <li>
-                            
-                            <?= Html::a('<i class="fas fa-chart-area"></i> Reports', 
-                                        ['#reports'],
-                                        [
-                                          'data-toggle' =>"collapse",
-                                          'aria-expanded'=>"false",
-                                        ]) 
-                            ?>
-                            <ul class="collapse list-unstyled" id="reports">
-                                <li>
-                                    <?= Html::a('Collections', ['report/collections']) ?>
-                                </li>
-                            </ul>
-                        </li>
-
-                    
-                   
-                </ul>
-            </nav>
-            <!-- <div class="col-md-2 col-sm-4"> -->
-                <!-- <div class="list-group">
-                  
-                    </?php if (Yii::$app->controller->action->id == 'loandetails'): ?>
-                        </?= Html::a('Loan Details', ['loandetails/index'],['class'=>'list-group-item ']) ?>
+        <div class="row">
+            <div class="col-md-2 col-sm-4">
+                <div class="list-group">
+                   <!--  <a class="list-group-item active" href="/github/tracker/web/gii/model">
+                        <i class="glyphicon glyphicon-chevron-right"></i>
+                    </a> -->
+                    <?php if (Yii::$app->controller->action->id == 'loandetails'): ?>
+                        <?= Html::a('Loan Details', ['loandetails/index'],['class'=>'list-group-item ']) ?>
                         
-                    </?php else: ?>
-                        </?= Html::a('Loan Details', ['loandetails/index'],['class'=>'list-group-item active']) ?>
+                    <?php else: ?>
+                        <?= Html::a('Loan Details', ['loandetails/index'],['class'=>'list-group-item active']) ?>
 
-                    </?php endif ?>
+                    <?php endif ?>
                          
-                </div> -->
-            <!-- </div> -->
-            <!-- <div class="col-md-10"> -->
-            <div id="content">
-                <!-- <div class="navbar-header"> -->
-                            <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
-                                <i class="glyphicon glyphicon-align-left"></i>
-                                <span>Toggle Sidebar</span>
-                            </button>
-                        <!-- </div> -->
+                </div>
+            </div>
+            <div class="col-md-10">
+                
                 <?= Breadcrumbs::widget([
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                 ]) ?>
@@ -175,16 +120,7 @@ AppAsset::register($this);
     </div> -->
 </footer>
 
-
 <?php $this->endBody() ?>
 </body>
 </html>
 <?php $this->endPage() ?>
-
-<script type="text/javascript">
-             $(document).ready(function () {
-                 $('#sidebarCollapse').on('click', function () {
-                     $('#sidebar').toggleClass('active');
-                 });
-             });
-         </script>
