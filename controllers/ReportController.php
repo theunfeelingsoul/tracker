@@ -11,42 +11,38 @@ use app\models\LoandetailsSearch;
 
 
 class ReportController extends \yii\web\Controller
-{
+{   
+     /**
+     * Search loan between dates.
+     * @return mixed
+     */
     public function actionCollections()
     {
-        $searchModel = new LoandetailsSearch();
+        // check if there is data being sent
     	if (!empty($_POST)) {
-    		// echo("<pre>");
-    		// // print_r($_POST);
-    		// echo("</pre>");
 
-    		$from = trim($_POST['from_date']);
-    		$to = trim($_POST['to_date']);
-
-            // echo "<pre>";
-            // // echo var_dump($from);
-            // // echo var_dump($to);
-            // echo "</pre>";
             $model = new Loandetails();
-            // $model = Loandetails::find()->where(['between','start_date', '2018-02-16', '2018-02-28' ])->all();
-            $model = Loandetails::find()->where(['between','start_date', $from, $to ])->all();
-            // echo $model->createCommand()->getRawSql;
-            // echo "<pre>";
-            // // echo var_dump($model);
-            // echo "</pre>";
 
+            // get the post data
+            $from = trim($_POST['from_date']);
+            $to   = trim($_POST['to_date']);
+
+            // create the query with the post data
+            $model = Loandetails::find()->where(['between','start_date', $from, $to ])->all();
+
+            // Data provider for the GridView
             $dataProvider = new ActiveDataProvider([
                 'query' => Loandetails::find()->where(['between','start_date', $from, $to ]),
             ]);
-             return $this->render('collections', [
+
+            // render
+            return $this->render('collections', [
                 'dataProvider' => $dataProvider,
-                'searchModel' => $searchModel,
             ]);
-            // exit();
     		
     	}else{
 
-        return $this->render('collections');
+            return $this->render('collections');
     	}
     }
 
