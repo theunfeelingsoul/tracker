@@ -190,7 +190,7 @@ use app\models\Loandetails;
           // ),
 
 
-          // ['class' => 'yii\grid\ActionColumn'],d
+          // ['class' => 'yii\grid\ActionColumn'],
       ],
   ]); ?>
   </div>
